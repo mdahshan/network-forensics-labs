@@ -1,0 +1,19 @@
+{
+  "image":"mcr.microsoft.com/devcontainers/universal",  
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "DavidAnson.vscode-markdownlint",
+        "docker.docker",
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "george-alisson.html-preview-vscode",
+        "ms-azuretools.vscode-docker",
+        "ms-python.vscode-pylance",
+        "ms-python.python",
+        "ms-python.debugpy",
+        "ms-python.vscode-python-envs"
+      ]
+    }
+  }
+}
