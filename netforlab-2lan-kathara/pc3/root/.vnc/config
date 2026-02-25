@@ -1,0 +1,14 @@
+# VNC server configuration file
+
+# Set the display geometry (resolution)
+geometry=1024x768
+
+# Set the colour depth
+depth=16
+
+# Disable authentication (no password)
+securitytypes=None
+
+# Use Fluxbox as the window manager
+session=fluxbox
+

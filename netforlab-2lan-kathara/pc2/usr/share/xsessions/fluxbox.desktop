@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Name=Fluxbox
+Comment=This session logs you into Fluxbox
+Exec=/usr/bin/startfluxbox
+TryExec=/usr/bin/startfluxbox
+Type=Application
+

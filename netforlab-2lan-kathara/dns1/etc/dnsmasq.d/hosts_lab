@@ -1,0 +1,16 @@
+192.168.0.1 r1.netforlab.net
+
+192.168.0.10 dns1.netforlab.net
+192.168.0.11 ftp1.netforlab.net
+192.168.0.12 web1.netforlab.net
+
+192.168.0.100 nspc1.netforlab.net
+192.168.0.101 pc1.netforlab.net
+192.168.0.102 pc2.netforlab.net
+
+192.168.5.1 r1.netforlab.net
+
+192.168.5.12 web2.netforlab.net
+
+192.168.5.102 nspc2.netforlab.net
+192.168.5.103 pc3.netforlab.net

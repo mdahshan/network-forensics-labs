@@ -1,0 +1,23 @@
+mkdir -p /var/run/openvswitch
+/usr/share/openvswitch/scripts/ovs-ctl start --system-id=random
+
+ovs-vsctl --may-exist add-br br0
+ovs-vsctl show
+
+for iface in eth0 eth1 eth2 eth3 eth4; do
+  ip link set "$iface" up
+  ovs-vsctl --may-exist add-port br0 "$iface"
+done
+
+ovs-vsctl -- --id=@p0 get Port eth0 \
+  -- --id=@p1 get Port eth1 \
+  -- --id=@p2 get Port eth2 \
+  -- --id=@p3 get Port eth3 \
+  -- --id=@p4 get Port eth4 \
+  -- --id=@m create Mirror name=span0 \
+  select-src-port=@p0,@p1,@p2,@p3 \
+  select-dst-port=@p0,@p1,@p2,@p3 \
+  output-port=@p4 \
+  -- set Bridge br0 mirrors=@m
+
+ovs-vsctl show

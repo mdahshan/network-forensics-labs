@@ -1,0 +1,12 @@
+sysctl -w net.ipv4.ip_forward=1
+
+ip link set eth0 up
+ip link set eth1 up
+ip address add 192.168.0.1/24 dev eth0
+ip address add 192.168.5.1/24 dev eth1
+
+chown frr:frr /etc/frr/daemons /etc/frr/frr.conf /etc/frr/zebra.conf /etc/frr/staticd.conf
+chown frr:frrvty /etc/frr/vtysh.conf
+chmod 640 /etc/frr/daemons /etc/frr/*.conf
+
+/usr/lib/frr/frrinit.sh start

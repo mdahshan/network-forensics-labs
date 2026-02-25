@@ -1,0 +1,15 @@
+ip link set eth0 up
+ip address add 192.168.0.11/24 dev eth0
+
+ip route add 192.168.5.0/24 via 192.168.0.1
+ip route add 10.0.0.0/8 via 192.168.0.1
+ip route add default via 192.168.0.1
+
+printf "search netforlab.net\nnameserver 192.168.0.10\n" > /etc/resolv.conf
+
+sh /root/ftpusers.sh
+
+mkdir -p /var/ftp
+chown -R ftpuser:ftpuser /var/ftp
+
+vsftpd /etc/vsftpd/vsftpd.conf &

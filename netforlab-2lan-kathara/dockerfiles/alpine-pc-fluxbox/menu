@@ -1,0 +1,18 @@
+[begin]
+    [exec] (Terminal) {xterm} <>
+
+    [separator]
+
+    [exec] (File Manager) {pcmanfm} <>
+    [exec] (Midnight Commander) {xterm -e mc} <>
+
+    [separator]
+
+    [exec] (Mousepad) {/usr/bin/mousepad} <>
+
+    [separator]
+   
+    [exec] (Chromium) {chromium-nosandbox} <>
+    [exec] (FileZilla) {filezilla} <>
+    [exec] (Wireshark) {wireshark} <>
+[end]
