@@ -1,4 +1,4 @@
-# Netfor Forensics Experiments
+# netforlab-2lan-kathara Forensics Experiments
 
 This guide provides short, repeatable activities for classroom labs.
 
@@ -9,9 +9,10 @@ This guide provides short, repeatable activities for classroom labs.
 - From `pc1`: `ping -c 4 web2`
 
 What to observe:
+
 - ARP requests/replies before first packet exchange.
 - TTL differences for same-LAN vs routed traffic.
-- Router hop behavior between LAN A and LAN B.
+- Router hop behaviour between LAN A and LAN B.
 
 ## 2) DNS Query Inspection
 
@@ -21,8 +22,9 @@ What to observe:
   - `nslookup web2.netforlab.net`
 
 What to observe:
+
 - Query type (`A`, `AAAA`) and response sections.
-- Resolution latency and retry behavior.
+- Resolution latency and retry behaviour.
 
 ## 3) HTTP Traffic Walkthrough
 
@@ -31,6 +33,7 @@ What to observe:
 - Repeat for `http://web2.netforlab.net`
 
 What to observe:
+
 - TCP handshake sequence.
 - HTTP request/response headers.
 - Object retrieval pattern (HTML, CSS, images).
@@ -42,6 +45,7 @@ What to observe:
 - Upload and download sample files.
 
 What to observe:
+
 - Control channel commands (`USER`, `PASS`, `LIST`, `RETR`, `STOR`).
 - Data channel setup and transfer timing.
 
@@ -54,10 +58,12 @@ What to observe:
 - Capture on the corresponding Wireshark node.
 
 What to observe:
+
 - Burst patterns and repeated destinations.
-- Distinguish normal service traffic from scripted anomalous activity.
+- Distinguish normal service traffic from scripted anomalous behaviour.
 
 Prerequisites:
+
 - Python 3 and Scapy (already included in `netfor-alpine-netsec`).
 
 ## Suggested Deliverables (Students)

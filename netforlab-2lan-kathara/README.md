@@ -6,7 +6,7 @@ It implements a two-LAN topology (`192.168.0.0/24` and `192.168.5.0/24`) interco
 ## Learning Goals
 
 - Observe L2/L3 traffic in segmented LANs.
-- Capture and analyze DNS, HTTP, FTP, and ICMP traffic.
+- Capture and analyse DNS, HTTP, FTP, and ICMP traffic.
 - Compare endpoint captures with mirrored switch-port captures.
 - Practice basic incident-style workflows (traffic triage and suspicious activity identification).
 
@@ -19,55 +19,60 @@ It implements a two-LAN topology (`192.168.0.0/24` and `192.168.5.0/24`) interco
 
 ![Network diagram](network-diagram.png)
 
-## Requirements
+## Quick Start (GitHub Codespaces)
+
+This is the recommended path for most users.
+
+1. In the main repository page on GitHub, select **Code** → **Codespaces** → **Create codespace on main**.
+2. In the Codespace terminal, run:
+
+```bash
+cd /workspaces/network-forensics-labs/netforlab-2lan-kathara
+
+# Required on default GitHub Codespaces base image:
+./scripts/fix_yarn_repo_key.sh
+
+./scripts/install_lab_dependencies.sh
+./scripts/build_docker_images.sh
+
+kathara lstart --terminal-emu TMUX
+./scripts/start_novnc_proxies.sh start
+```
+
+3. Access the lab:
+   - Attach terminal session: `tmux attach -t Kathara`
+   - Browser desktops:
+     - `http://localhost:6082/vnc.html?host=localhost&port=6082` (`pc2`)
+     - `http://localhost:6083/vnc.html?host=localhost&port=6083` (`pc3`)
+
+4. Stop and clean up:
+
+```bash
+./scripts/start_novnc_proxies.sh stop
+kathara lclean
+```
+
+## Detailed Setup (Debian/Ubuntu)
+
+### Requirements
 
 - Linux host (recommended for Kathara networking features)
 - Docker
 - Kathara
 
-Quick setup on Ubuntu/Debian:
+Run setup in this order:
 
 ```bash
+cd netforlab-2lan-kathara
+
+# Only needed on default GitHub Codespaces base image:
+./scripts/fix_yarn_repo_key.sh
+
 ./scripts/install_lab_dependencies.sh
+./scripts/build_docker_images.sh
 ```
 
-This installer follows the official Debian-based Kathara apt installation flow, only adds missing dependencies (including `tmux`), and skips Docker installation by default to avoid conflicts in environments where Docker is already provided.
-
-To use tmux without editing `kathara.conf`, pass the terminal emulator on the command line:
-
-```bash
-kathara lstart --terminal-emu TMUX
-```
-
-To access VNC devices from the browser, start the bundled noVNC proxies:
-
-```bash
-./scripts/start_novnc_proxies.sh start
-```
-
-Quick start (lab + browser access):
-
-```bash
-kathara lstart --terminal-emu TMUX && ./scripts/start_novnc_proxies.sh start
-```
-
-Quick stop (proxies + lab cleanup):
-
-```bash
-./scripts/start_novnc_proxies.sh stop && kathara lclean
-```
-
-Then open:
-
-- `http://localhost:6082/vnc.html?host=localhost&port=6082` (`pc2`)
-- `http://localhost:6083/vnc.html?host=localhost&port=6083` (`pc3`)
-
-Manage proxy lifecycle:
-
-```bash
-./scripts/start_novnc_proxies.sh status
-./scripts/start_novnc_proxies.sh stop
-```
+`./scripts/install_lab_dependencies.sh` follows the official Debian-based Kathara apt installation flow, installs missing dependencies (`tmux`, `novnc`, `websockify`), and skips Docker installation by default to avoid conflicts when Docker is already provided.
 
 Optional (for local diagram regeneration):
 
@@ -81,7 +86,13 @@ Optional (for local diagram regeneration):
 
 ## Build Images
 
-From the lab directory:
+Build all required images with the helper script:
+
+```bash
+./scripts/build_docker_images.sh
+```
+
+Equivalent manual commands:
 
 ```bash
 docker build -t netfor-alpine-netsec dockerfiles/alpine-netsec
@@ -93,6 +104,8 @@ docker build -t netfor-webnginx dockerfiles/webnginx
 ```
 
 ## Start / Stop the Lab
+
+Before running `kathara lstart`, complete the image build step in the **Build Images** section.
 
 ```bash
 cd netforlab-2lan-kathara
@@ -107,11 +120,7 @@ kathara lclean
 
 ## TMUX Terminal Usage
 
-If you start with TMUX terminal emulation:
-
-```bash
-kathara lstart --terminal-emu TMUX
-```
+Quick Start already launches the lab with TMUX. Use this section as a reference for tmux session control.
 
 Attach to the Kathara tmux session:
 
@@ -153,34 +162,37 @@ You can replace `r1` and `web1` with any device names from the lab.
 ## Access
 
 - noVNC browser access (for VNC-enabled devices):
-	- Start proxies:
+  Quick Start already starts the proxies. For manual control:
 
-		```bash
-		./scripts/start_novnc_proxies.sh start
-		```
+  - Start proxies:
 
-	- Open in browser:
-		- `http://localhost:6082/vnc.html?host=localhost&port=6082` (`pc2`)
-		- `http://localhost:6083/vnc.html?host=localhost&port=6083` (`pc3`)
+    ```bash
+    ./scripts/start_novnc_proxies.sh start
+    ```
 
-	- Check or stop proxies:
+  - Open in browser:
+    - `http://localhost:6082/vnc.html?host=localhost&port=6082` (`pc2`)
+    - `http://localhost:6083/vnc.html?host=localhost&port=6083` (`pc3`)
 
-		```bash
-		./scripts/start_novnc_proxies.sh status
-		./scripts/start_novnc_proxies.sh stop
-		```
+  - Check or stop proxies:
+
+    ```bash
+    ./scripts/start_novnc_proxies.sh status
+    ./scripts/start_novnc_proxies.sh stop
+    ```
 
 - VNC desktop nodes:
-	- `pc2`: `localhost:5922`
-	- `pc3`: `localhost:5923`
+  - `pc2`: `localhost:5922`
+  - `pc3`: `localhost:5923`
 - Wireshark web UIs:
-	- `wiresharka`: `http://localhost:3000`
-	- `wiresharkb`: `http://localhost:3001`
+  - `wiresharka`: `http://localhost:3000`
+  - `wiresharkb`: `http://localhost:3001`
 
 ## Lab Structure
 
 - `lab.conf`: topology and node/image wiring
 - `*.startup`: node boot configuration (IPs, routes, services, OVS setup)
+- `scripts/build_docker_images.sh`: builds all required Docker images for this lab
 - per-node directories (e.g., `dns1/`, `ftp1/`, `web1/`): files injected into device filesystems by Kathara
 
 ## Suggested Forensics Exercises
@@ -233,7 +245,7 @@ python scripts/render_diagram.py
 
 ## Classroom Use Notes
 
-- This lab is intended for defensive security education and authorized experimentation only.
+- This lab is intended for defensive security education and authorised experimentation only.
 - Run exercises in isolated environments and follow your institution's acceptable-use policy.
 
 ## Script Requirements

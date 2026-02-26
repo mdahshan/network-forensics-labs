@@ -16,6 +16,8 @@ This repository is actively maintained.
 
 A Kathara-based two-LAN forensics lab with DNS, HTTP, FTP, router/switch segments, traffic mirroring, and analysis workflows.
 
+This lab uses a GitHub Codespaces-first quick start, followed by detailed Debian/Ubuntu instructions.
+
 See:
 
 - [`netforlab-2lan-kathara/README.md`](netforlab-2lan-kathara/README.md)
@@ -25,7 +27,7 @@ See:
 
 Planned direction for this repository:
 
-- Expand the lab catalog with additional network-forensics scenarios.
+- Expand the lab catalogue with additional network-forensics scenarios.
 - Cover different protocols, attack patterns, and investigation workflows.
 - Keep labs reproducible with clear setup and dependency scripts.
 
@@ -37,7 +39,7 @@ When adding or updating a lab:
 
 - Keep setup steps explicit and reproducible.
 - Document topology, services, and learning objectives.
-- Include safe-use notes for authorized environments.
+- Include safe-use notes for authorised environments.
 - Prefer small, focused pull requests.
 
 ## Lab Template
@@ -51,8 +53,11 @@ Use this structure as a baseline for new labs:
 	lab.conf                   # topology definition
 	*.startup                  # per-node startup scripts
 	scripts/
+		fix_yarn_repo_key.sh      # Codespaces default image compatibility
 		install_lab_dependencies.sh
+		build_docker_images.sh
 		setup_python_venv.sh     # if Python tooling is required
+		start_novnc_proxies.sh   # if browser VNC access is required
 	dockerfiles/               # custom images (if needed)
 ```
 
@@ -75,4 +80,4 @@ This repository is intended for:
 
 ## Notes
 
-Use these labs only in authorized and isolated environments.
+Use these labs only in authorised and isolated environments.
